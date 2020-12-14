@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取所有图书数据</title>
+    <script src="./src/axios.js"></script>
+    <script src="./src/vue.js"></script>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr v-for="hero in hero_list">
+                <td>{{ hero.id }}</td>
+                <td>{{ hero.hgender }}</td>
+                <td>{{ hero.hname }}</td>
+                <td>{{ hero.hcomment }}</td>
+                <td>{{ hero.hbook }}</td>
+                <td>{{ hero.hbook_id }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el: "#app",
+
+        data: {
+            hero_list: []
+        },
+
+        methods: {
+            show_hero_list: function () {
+                axios.get('http://127.0.0.1:8000/herolist/').
+                then(response => {
+                    this.hero_list = response.data.heros
+                }).
+                catch(error => {
+                    console.log('访问错误')
+                })
+            }
+        },
+
+        mounted: function() {
+            show_hero_list()
+        },
+
+    })
+</script>
+</html>
