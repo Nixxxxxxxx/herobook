@@ -5,25 +5,29 @@
     <title>获取所有图书数据</title>
     <script src="./src/axios.js"></script>
     <script src="./src/vue.js"></script>
-    <style type="text/css">
-        table {
-            border-collapse: collapse;
-        }
-        td {
-            border: 1px solid red;
-        }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div id="app">
-        <table>
+        <div class="title">英雄人物数据榜单</div>
+        <table class="gridtable">
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>性别</th>
+                <th>备注</th>
+                <th>所属图书</th>
+                <th>操作</th>
+            </tr>
             <tr v-for="hero in hero_list">
                 <td>{{ hero.id }}</td>
-                <td>{{ hero.hgender }}</td>
+                <td v-if="hero.hgender"><span>男</span></td>
+                <td v-else><span>女</span></td>
                 <td>{{ hero.hname }}</td>
                 <td>{{ hero.hcomment }}</td>
                 <td>{{ hero.hbook }}</td>
                 <td>{{ hero.hbook_id }}</td>
+                <td><a href="#" @click="delete_hero(hero.id, index)">删除</a></td>
             </tr>
         </table>
     </div>
@@ -38,18 +42,27 @@
 
         methods: {
             show_hero_list: function () {
-                axios.get('http://127.0.0.1:8000/herolist/').
+                axios.get('http://127.0.0.1:8000/heros/').
                 then(response => {
                     this.hero_list = response.data.heros
                 }).
                 catch(error => {
-                    console.log('访问错误')
+                    console.log(error)
+                })
+            },
+
+            delete_hero: function(id, index) {
+                axios.delete('http://127.0.0.1:8000/heros/' + id + '/')
+                .then(response => {
+                    this.heros.splice(index, 1);
+                }).catch(error => {
+                    console.log(error);
                 })
             }
         },
 
         mounted: function() {
-            show_hero_list()
+            this.show_hero_list()
         },
 
     })

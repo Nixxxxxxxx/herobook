@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取所有图书数据</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="./src/vue.js"></script>
+    <script src="./src/axios.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="title">英雄人物数据榜单</div>
+        <table class="gridtable">
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>性别</th>
+                <th>备注</th>
+                <th>所属图书</th>
+                <th>操作</th>
+            </tr>
+            <!-- TODO：展示获取到的所有英雄人物数据 -->
+            <tr v-for="(hero, index) in heros">
+                <td>{{ hero.id }}</td>
+                <td>{{ hero.hname }}</td>
+                <td>
+                    <span v-if="hero.hgender">男</span>
+                    <span v-else>女</span>
+                </td>
+                <td>{{ hero.hcomment }}</td>
+                <td>{{ hero.hbook }}</td>
+                <td><a href="#" @click="delete_hero(hero.id, index)">删除</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    // 创建 Vue 对象
+    var vm = new Vue({
+        // 指定当前 Vue 对象控制的页面区域
+        el: "#app",
+        // 数据
+        data: {
+            heros: []
+        },
+        mounted: function() {
+            // TODO：页面加载时，获取所有英雄人物数据
+            this.get_heros();
+        },
+        // 方法
+        methods: {
+            // TODO：获取所有英雄人物的数据
+            get_heros: function () {
+                axios.get('http://127.0.0.1:8000/heros/')
+                .then(response => {
+                    // 请求成功执行的代码
+                    this.heros = response.data.heros;
+                })
+                .catch(error => {
+                    // 请求失败执行的代码
+                    console.log(error);
+                })
+            },
+
+            // TODO：删除指定英雄人物的数据
+            delete_hero: function (id, index) {
+                // alert(index);
+                // alert('删除英雄数据' + id);
+                axios.delete('http://127.0.0.1:8000/heros/' + id + '/')
+                .then(response => {
+                    // 请求成功执行的操作
+                    this.heros.splice(index, 1);
+                })
+                .catch(error => {
+                    // 请求失败执行的操作
+                    console.log(error);
+                })
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,39 @@
+body {
+    background-image: url("../images/bg.jpg");
+}
+
+div{
+      text-align: center;
+}
+
+div.title {
+    font-size: 40px;
+    color: orangered;
+}
+
+table.gridtable {
+    margin: auto;
+    font-family: verdana,arial,sans-serif;
+    font-size: 12px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #666666;
+    border-collapse: collapse;
+    width: 75%;
+}
+
+table.gridtable th {
+    border-width: 1px;
+    padding: 8px 24px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #dedede;
+}
+
+table.gridtable td {
+    border-width: 1px;
+    padding: 8px 24px;
+    border-style: solid;
+    border-color: #666666;
+    background-color: #ffffff;
+}
